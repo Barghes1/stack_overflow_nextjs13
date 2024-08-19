@@ -1,10 +1,6 @@
 import React from 'react'
 import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
+  ClerkProvider
 } from '@clerk/nextjs'
 import { Inter, Space_Grotesk } from 'next/font/google'
 import type { Metadata } from 'next'
@@ -51,12 +47,6 @@ export default function RootLayout({
               }
             }}
           >
-            <SignedOut>
-              <SignInButton />
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
             <ThemeProvider>
               {children}
             </ThemeProvider>
