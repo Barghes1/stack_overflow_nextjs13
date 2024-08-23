@@ -72,8 +72,6 @@ export async function POST(req: Request) {
             picture: image_url,
         });
 
-        console.log('Created in MongoDB!');
-
         return NextResponse.json({ message: 'OK', user: mongoUser });
     }
 

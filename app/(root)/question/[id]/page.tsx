@@ -23,8 +23,6 @@ const Page = async ({ params }: any) => {
         
     }
 
-    console.log(mongoUser)
-
     const result = await getQuestionById({ questionId: params.id });
 
     return (
