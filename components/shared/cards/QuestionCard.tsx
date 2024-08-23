@@ -16,15 +16,18 @@ interface QuestionProps {
         name: string;
         picture: string;
     };
-    upvotes: number;
+    upvotes: string[];
     views: number;
     answers: Array<object>;
     createdAt: Date;
+    clerkId?: string | null;
 
 }
 
 const QuestionCard = (
-{    _id,
+{    
+    clerkId,
+    _id,
     title,
     tags,
     author,
@@ -40,7 +43,7 @@ const QuestionCard = (
                 <span className='subtle-regular text-dark400_light700 line-clamp-1 flex'>
                     {getTimeStamp(createdAt)}
                 </span>
-                <Link href={`/questions/${_id}`}>
+                <Link href={`/question/${_id}`}>
                     <h3 className='sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1'>
                         {title}
                     </h3>
@@ -70,7 +73,7 @@ const QuestionCard = (
             <Metric 
                 imgUrl="/assets/icons/like.svg"
                 alt="Upvotes"
-                value={formatLargeNumber(upvotes)}
+                value={formatLargeNumber(upvotes.length)}
                 title=" Votes"
                 textStyles="small-medium text-dark400_light800"
             />

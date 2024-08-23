@@ -40,3 +40,11 @@ export const formatLargeNumber = (num: number): string => {
         return num.toString();
     }
 };
+
+// Get the JavaScript date object as a parameter and return a joined date (just a month and year)
+export const getJoinedDate = (date: Date): string => {
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+
+    return `${month} ${year}`;
+};
