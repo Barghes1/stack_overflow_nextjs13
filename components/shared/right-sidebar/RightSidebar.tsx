@@ -2,54 +2,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import RenderTag from '../RenderTag'
+import { getHotQuestions } from '@/lib/actions/question.action'
+import { getPopularTags } from '@/lib/actions/tag.actions'
 
-const RightSidebar = () => {
-  const hotQuestions = [
-    {
-      id: "1",
-      title: "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)?",
-    },
-    {
-      id: "2",
-      title: "Is it only me or the font is bolder than necessary?",
-    },
-    {
-      id: "3",
-      title: "Redux Toolkit Not Updating State as Expected",
-    },
-    {
-      id: "4",
-      title: "How to use React Query with Next.js",
-    }
-  ]
-
-  const popularTags = [
-    {
-      id: "1",
-      name: "Next.js",
-      totalQuestions: 10
-    },
-    {
-      id: "2",
-      name: "React",
-      totalQuestions: 20
-    },
-    {
-      id: "3",
-      name: "JavaScript",
-      totalQuestions: 30
-    },
-    {
-      id: "4",
-      name: "TypeScript",
-      totalQuestions: 40
-    },
-    {
-      id: "5",
-      name: "CSS",
-      totalQuestions: 50
-    },
-  ]
+const RightSidebar = async () => {
+  const hotQuestions = await getHotQuestions();
+  const popularTags = await getPopularTags();
 
   return (
     <section className='custom-scrollbar background-light900_dark200 light-border sticky right-0 top-0 flex h-screen w-[350px] flex-col gap-6 overflow-y-auto border-l p-6 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden'>
@@ -60,7 +18,7 @@ const RightSidebar = () => {
             <Link
               key={question.id}
               className='flex items-center justify-between gap-7 cursor-pointer'
-              href={`/questions/${question.id}`}
+              href={`/question/${question.id}`}
             >
               <p className='body-medium text-dark500_light700'>{question.title}</p>
               <Image
@@ -80,10 +38,10 @@ const RightSidebar = () => {
             {popularTags.map((item) => {
               return (
                 <RenderTag
-                  key={item.id}
-                  id={item.id}
+                  key={item._id}
+                  id={item._id}
                   name={item.name}
-                  totalQuestions={item.totalQuestions}
+                  totalQuestions={item.numberOfQuestions}
                   showCount
                 />
               )

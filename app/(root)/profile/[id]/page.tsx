@@ -11,6 +11,7 @@ import ProfileLink from '@/components/shared/ProfileLink'
 import Stats from '@/components/shared/Stats'
 import QuestionTab from '@/components/shared/QuestionTab'
 import AnswerTab from '@/components/shared/AnswerTab'
+import Pagination from '@/components/shared/Pagination'
 
 const Page = async ({ params, searchParams }: URLProps) => {
     const {userId: clerkId} = auth()
@@ -79,8 +80,10 @@ const Page = async ({ params, searchParams }: URLProps) => {
             </div>
 
             <Stats 
+                reputation={userInfo.user.reputation}
                 totalQuestions={userInfo.totalQuestions}
                 totalAnswers={userInfo.totalAnswers}
+                badges={userInfo.badgeCounts}
             />
 
             <div className='mt-10 flex gap-10'>
@@ -89,14 +92,14 @@ const Page = async ({ params, searchParams }: URLProps) => {
                         <TabsTrigger value="top-posts" className='tab'>Top Posts</TabsTrigger>
                         <TabsTrigger value="answers" className='tab'>Answers</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="top-posts">
+                    <TabsContent value="top-posts" className='mt-5 flex w-full flex-col gap-6'>
                         <QuestionTab 
                             searchParams={searchParams}
                             userId={userInfo.user._id}
                             clerkId={clerkId}
                         />
                     </TabsContent>
-                    <TabsContent value="answers">
+                    <TabsContent value="answers" className="flex w-full flex-col gap-6">
                         <AnswerTab 
                             searchParams={searchParams}
                             userId={userInfo.user._id}

@@ -8,6 +8,7 @@ import { getTimeStamp } from '@/lib/utils'
 import ParseHTML from './ParseHTML'
 import Votes from './Votes'
 import { getQuestionById } from '@/lib/actions/question.action'
+import Pagination from './Pagination'
 
 interface Props {
     questionId: string
@@ -18,8 +19,11 @@ interface Props {
 }
 
 const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Props) => {
+
     const result = await getAnswers({
-        questionId
+        questionId,        
+        page: page ? +page : 1,
+        sortBy: filter,
     })
 
     return (
@@ -38,7 +42,6 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
                         key={answer._id}
                         className="light-border border-b py-10"
                     >
-                        <div className='flex items-center justify-between'>
                             <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
                                 <Link 
                                     href={`/profile/${answer.author.clerkId}`}
@@ -75,12 +78,16 @@ const AllAnswers = async ({ questionId, userId, totalAnswers, page, filter }: Pr
                                     />
                                 </div>
                             </div>
-
-                            
-                        </div>
                         <ParseHTML data={answer.content}/>
                     </article>
                 ))}
+            </div>
+
+            <div className='mt-10'>
+                <Pagination 
+                    pageNumber={page ? +page : 1}
+                    isNext={result.isNext}
+                />
             </div>
         </div>
     )

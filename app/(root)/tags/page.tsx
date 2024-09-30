@@ -4,9 +4,15 @@ import Link from 'next/link'
 import NoResult from '@/components/shared/NoResult'
 import { getAllTags } from '@/lib/actions/tag.actions'
 import { TagFilters } from '@/constants/filters'
+import { SearchParamsProps } from '@/types'
+import Pagination from '@/components/shared/Pagination'
 
-const Tags = async () => {
-    const result = await getAllTags({});
+const Tags = async ({ searchParams }: SearchParamsProps) => {
+    const result = await getAllTags({
+        searchQuery: searchParams.q,
+        filter: searchParams.filter,
+        page: searchParams.page ? +searchParams.page : 1
+    });
 
     return (
         <>
@@ -31,7 +37,7 @@ const Tags = async () => {
                 {result.tags.length > 0 ? (
                     result.tags.map((tag) => (
                         <Link 
-                            href={`/tag/${tag._id}`} key={tag._id}
+                            href={`/tags/${tag._id}`} key={tag._id}
                             className='shadow-light100_darknone'
                         >
                             <article className="background-light900_dark200 light-border flex w-full flex-col rounded-2xl border px-8 py-10 sm:w-[260px]">
@@ -56,6 +62,13 @@ const Tags = async () => {
                     />
                 )}
             </section>
+
+            <div className="mt-10">
+                <Pagination 
+                    pageNumber={searchParams?.page ? +searchParams.page : 1}
+                    isNext={result.isNext}
+                />
+            </div>
         </>
     )
 }

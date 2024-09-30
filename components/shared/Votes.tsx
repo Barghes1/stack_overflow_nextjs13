@@ -1,5 +1,6 @@
 "use client"
 
+import { toast } from '@/hooks/use-toast'
 import { downvoteAnswer, upvoteAnswer } from '@/lib/actions/answer.action'
 import { viewQuestion } from '@/lib/actions/interaction.action'
 import { downvoteQuestion, upvoteQuestion } from '@/lib/actions/question.action'
@@ -28,7 +29,10 @@ const Votes = ({ type, itemId, userId, upvotes, downvotes, hasupVoted, hasdownVo
   const handleVote = async (action: string) => {
     if(!userId)
     {
-      return;
+      return toast({
+        title: 'Please sign in',
+        description: 'You need to sign in to vote',
+      })
     }
 
     if(action === "upvote")
@@ -55,7 +59,10 @@ const Votes = ({ type, itemId, userId, upvotes, downvotes, hasupVoted, hasdownVo
 
       // TODO: show a toast
 
-      return;
+      return toast({
+        title: `Upvote ${!hasupVoted ? 'Successfully' : 'Removed'}`,
+        variant: !hasupVoted ? 'default' : 'destructive',
+      })
     }
 
     if(action === "downvote") {
@@ -79,9 +86,10 @@ const Votes = ({ type, itemId, userId, upvotes, downvotes, hasupVoted, hasdownVo
         })
       }
 
-      // TODO: show a toast
-
-      return;
+      return toast({
+        title: `Downvote ${!hasupVoted ? 'Successfully' : 'Removed'}`,
+        variant: !hasupVoted ? 'default' : 'destructive',
+      })
     }
 
   }
@@ -92,6 +100,11 @@ const Votes = ({ type, itemId, userId, upvotes, downvotes, hasupVoted, hasdownVo
       questionId: JSON.parse(itemId),
       path: pathname,
     })
+
+    return toast({
+      title: `Question ${!hasSaved ? 'Saved in' : 'Removed from'} your collection`,
+      variant: !hasSaved ? 'default' : 'destructive',
+    })
   }
 
   useEffect(() => {
@@ -100,7 +113,6 @@ const Votes = ({ type, itemId, userId, upvotes, downvotes, hasupVoted, hasdownVo
       userId: userId ? JSON.parse(userId) : undefined,
     })
 
-    alert('test')
   }, [itemId, userId, pathname])
 
   return (
